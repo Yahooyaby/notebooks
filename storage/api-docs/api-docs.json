@@ -1,0 +1,174 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "REST API для записной книжки",
+        "version": "0.0.1"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8001/api/v1",
+            "description": "Dev server"
+        }
+    ],
+    "paths": {
+        "/notebooks": {
+            "get": {
+                "summary": "Метод получения списка записных книжек",
+                "tags": [
+                    "Notebooks"
+                ],
+                "operationId": "getAllNotebooks",
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ со списком записных книжек",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Notebooks"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Метод создания записной книжки",
+                "tags": [
+                    "Notebooks"
+                ],
+                "operationId": "createNotebook",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Notebook"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ с созданной записной книжкой",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Notebook"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notebooks/{id}": {
+            "get": {
+                "summary": "Метод получения записной книжки по идентификатору",
+                "tags": [
+                    "Notebooks"
+                ],
+                "operationId": "getNotebookById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Идентификатор записной книжки",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ с одной записной книжкой",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Notebook"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Метод удаления записной книжки по идентификатору",
+                "tags": [
+                    "Notebooks"
+                ],
+                "operationId": "deleteNotebookById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Идентификатор записной книжки",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешное удаление",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Notebook": {
+                "type": "object",
+                "required": [
+                    "full_name",
+                    "phone_number",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "full_name": {
+                        "type": "string",
+                        "example": "Ivan Ivanov"
+                    },
+                    "company": {
+                        "type": "string",
+                        "example": "RosNano"
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "example": 79123456789
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "admin@admin.com"
+                    },
+                    "date_of_birth": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-07-01T14:00:00.000Z"
+                    },
+                    "photo_path": {
+                        "type": "string",
+                        "example": "apiNotes/49LLO0Q47lpm2wuZQUoZuZf9WCYtlofCGa3zA0nG.jpg"
+                    }
+                }
+            },
+            "Notebooks": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/Notebook"
+                }
+            }
+        }
+    }
+}
